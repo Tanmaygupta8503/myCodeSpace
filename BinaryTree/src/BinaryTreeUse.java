@@ -563,6 +563,65 @@ public class BinaryTreeUse {
 	}
 	
 	
+/*
+	
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T data;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+ */
+
+	public static void pairSum(BinaryTreeNode<Integer> root, int sum) {
+
+		/* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+        */
+		ArrayList<Integer> arr =new ArrayList<>();
+		inorder(root , arr);
+		Collections.sort(arr);
+		twoSum(arr , sum);
+	}
+//	private static void inorder(BinaryTreeNode<Integer> root ,ArrayList<Integer> arr)
+//	{
+//		if(root == null)
+//		{
+//			return ;
+//		}
+//		inorder(root.left ,arr);
+//		arr.add(root.data);
+//		inorder(root.right, arr);
+//	}
+	private static void twoSum(ArrayList<Integer> arr, int x) {
+        int lo = 0, hi = arr.size() -1;
+		while(lo < hi) {
+			int sum = arr.get(lo) + arr.get(hi);
+			if(sum > x)
+				hi--;
+			else if(sum < x)
+				lo++;
+			else {
+				System.out.println(arr.get(lo) + " " + arr.get (hi));
+				lo ++;
+				hi --;
+			}
+		}
+    }
+
+
+	
 	public static void main(String[] args) {
 		int arr[] = {2,3,5,9,10,15,18,29};
 		BinaryTreeNode<Integer> bst= SortedArrayToBST(arr , 8);
