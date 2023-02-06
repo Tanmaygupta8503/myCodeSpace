@@ -1,0 +1,107 @@
+package AVLTree;
+public class AVLTree {
+    class Node{
+        int data;
+        Node left;
+        Node right;
+        int height;
+        Node(int data){
+            this.data=data;
+            this.left=null;
+            this.right=null;
+            this.height=0;
+        }
+    }
+    public int getheight(Node n){
+        if (n==null) return -1;
+        int lh=getheight(n.left);
+        int rh=getheight(n.right);
+        int fh=Math.max(lh,rh)+1;
+        return fh;
+    }
+    public int getbalancefac(Node n){
+        if (n==null) return 0;
+        return getheight(n.left)-getheight(n.right);
+    }
+    public  Node rightRotate(Node a){
+        Node b=a.left;
+        Node br=b.right;
+        b.right=a;
+        a.left=br;
+        a.height=Math.max(getheight(a.left),getheight(a.right))+1;
+        b.height=Math.max(getheight(b.left),getheight(b.right))+1;
+        return b;
+    }
+    public Node leftRotate(Node a){
+        Node b=a.right;
+        Node bl=b.left;
+        b.left=a;
+        a.right=bl;
+        a.height=Math.max(getheight(a.left),getheight(a.right))+1;
+        b.height=Math.max(getheight(b.left),getheight(b.right))+1;
+        return b;
+    }
+    public Node insert(Node root,int value){
+        if (root==null) return new Node(value);
+        if (value<root.data){
+            root.left=insert(root.left,value);
+        }
+        else if (value>root.data){
+            root.right=insert(root.right,value);
+        }
+        root.height=Math.max(getheight(root.left),getheight(root.right))+1;
+        int bf=getbalancefac(root);
+        //LL
+        if (bf>1 && value < root.left.data){
+            return rightRotate(root);
+        }
+        //RR
+        if (bf<-1 && value >root.right.data){
+            return leftRotate(root);
+        }
+        //LR
+        if (bf>1 && value>root.left.data){
+            root.left=leftRotate(root.left);
+            return rightRotate(root);
+        }
+        //RL
+        if (bf<-1 && value<root.right.data){
+            root.right=rightRotate(root.right);
+            return leftRotate(root);
+        }
+        return root;
+    }
+    public void display(Node n){
+        if (n==null) return;;
+        String str="";
+        if (n.left==null){
+            str+=".";
+        }
+        else {
+            str+=n.left.data;
+        }
+        str+=">="+n.data+"<=";
+        if (n.right==null){
+            str+=".";
+        }
+        else {
+            str+=n.right.data;
+        }
+    System.out.println(str);
+        display(n.left);
+        display(n.right);
+    }
+    public static void main(String[] args) {
+        AVLTree avv=new AVLTree();
+        Node root=null;
+        root=avv.insert(root,55);
+        root=avv.insert(root,45);
+        root=avv.insert(root,65);
+        root=avv.insert(root,43);
+        root=avv.insert(root,100);
+        root=avv.insert(root,200);
+        avv.display(root);
+
+    }
+
+}
